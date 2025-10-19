@@ -1,11 +1,9 @@
-import {ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
 import {MatAutocomplete, MatAutocompleteTrigger, MatOption} from "@angular/material/autocomplete";
 import {MatFormField, MatHint, MatPrefix, MatSuffix} from "@angular/material/form-field";
 import {MatInput, MatInputModule, MatLabel} from "@angular/material/input";
 import {FormControl, ReactiveFormsModule} from "@angular/forms";
 import {Currency, CurrencyFormValue} from "../_types/currency";
-import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
-import {MatIconModule} from "@angular/material/icon";
 
 @Component({
     selector: 'app-single-currency-form',
@@ -21,6 +19,7 @@ import {MatIconModule} from "@angular/material/icon";
         ReactiveFormsModule,
         MatSuffix,
         MatInputModule,
+
     ],
     templateUrl: './single-currency-form.html',
     styleUrl: './single-currency-form.css'
@@ -33,9 +32,10 @@ export class SingleCurrencyForm implements OnChanges {
     currencySearchControl: FormControl = new FormControl();
     amount: FormControl = new FormControl();
 
-    constructor(private readonly cdr: ChangeDetectorRef,) {
+    constructor() {
         this.currencySearchControl.valueChanges.subscribe(
             (value): void => {
+                // check value is type of currency by checking for short_code
                 this.formChange.emit({
                     currency: value?.short_code ? value.short_code : undefined,
                     amount: this.amount.value,
@@ -47,7 +47,6 @@ export class SingleCurrencyForm implements OnChanges {
                 this.filteredCurrencies = this.currencies?.filter(
                     (currency: Currency): boolean => currency.name.toLowerCase().includes(value)
                 );
-                this.cdr.detectChanges();
             }
         );
         this.amount.valueChanges.subscribe(
@@ -56,7 +55,6 @@ export class SingleCurrencyForm implements OnChanges {
                     currency: this.currencySearchControl.value?.short_code ? this.currencySearchControl.value.short_code : undefined,
                     amount: value,
                 });
-
             }
         );
     }
@@ -66,6 +64,7 @@ export class SingleCurrencyForm implements OnChanges {
             this.amount.setValue(this.setAmount);
         }
         if (changes['currencies']?.currentValue) {
+            // set the initial currencies
             let currencyCodeToFind: string = !!(this.setAmount || this.setAmount == 0) ? 'USD' : 'GBP'
             const i: number = this.currencies.findIndex((x: any): boolean => x.short_code === currencyCodeToFind);
             if (i != null && i >= 0) {
@@ -75,6 +74,7 @@ export class SingleCurrencyForm implements OnChanges {
     }
 
     displayFn(currency: Currency): string {
-        return currency?.name || ''
+        // Storing object not name so display correctly to user
+        return currency?.name || '';
     }
 }

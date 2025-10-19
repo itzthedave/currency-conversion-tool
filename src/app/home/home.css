@@ -1,0 +1,21 @@
+main {
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    height: 100vh
+
+}
+
+.container {
+    max-width: 1000px
+}
+
+.currencyFormContainer {
+    padding-top: 20px
+}
+
+.currencyFormRow {
+    gap: 25px;
+    align-items: center;
+    justify-content: space-around
+}

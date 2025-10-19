@@ -11,7 +11,6 @@ export interface Currency {
     thousands_separator: string
 }
 
-
 export interface CurrencyFormValue {
     currency?: string,
     amount?: number,

@@ -1,7 +1,6 @@
-<div class="flex-col" style="gap: 15px">
+<div class="flex-col gap-15">
     <mat-form-field appearance="outline" color="primary" floatLabel="always">
         <mat-label>Select Currency</mat-label>
-
         <input [formControl]="currencySearchControl"
                [matAutocomplete]="auto" matInput placeholder="Select Currency">
         <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
@@ -11,22 +10,30 @@
                 </mat-option>
             }
         </mat-autocomplete>
-        @if (!currencySearchControl.value || !currencySearchControl?.value?.code) {
+        @if (!currencySearchControl.value || !currencySearchControl.value?.code) {
             <mat-hint class="error">
-                This field is required
+                A valid currency is required
             </mat-hint>
         }
     </mat-form-field>
-    <mat-form-field appearance="outline" floatLabel="always">
+    <mat-form-field appearance="outline" floatLabel="always"
+                    [class.readOnly]="!!(this.setAmount || this.setAmount == 0)">
         <mat-label>Amount</mat-label>
         <input [formControl]="amount" min="0" matInput type="number"
                [readonly]="!!(this.setAmount || this.setAmount == 0)"
                class="example-right-align" placeholder="0"/>
         @if (currencySearchControl.value && currencySearchControl.value.symbol_first) {
-            <span matTextPrefix style="padding-right: 2px">{{ currencySearchControl.value.symbol }}</span>
+            <span matTextPrefix
+                  class="pr-2">{{ currencySearchControl.value.symbol }}</span>
         }
         @if (currencySearchControl.value && !currencySearchControl.value.symbol_first) {
-            <span matTextSuffix style="padding-left: 2px">{{ currencySearchControl.value.symbol }}</span>
+            <span matTextSuffix
+                  class="pr-2">{{ currencySearchControl.value.symbol }}</span>
+        }
+        @if (!!(this.setAmount || this.setAmount == 0)) {
+            <mat-hint>This field is read only and populated by the conversion</mat-hint>
+        } @else if (this.amount.value <= 0) {
+            <mat-hint class="error">This field is required</mat-hint>
         }
     </mat-form-field>
 </div>

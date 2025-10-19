@@ -13,7 +13,6 @@ import {Currency, CurrencyFormValue} from "../_types/currency";
 import {catchError, debounceTime, distinctUntilChanged, EMPTY, Subject, Subscription, switchMap} from "rxjs";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 
-
 @Component({
     standalone: true,
     selector: 'app-home',
@@ -37,7 +36,7 @@ export class Home implements OnDestroy {
     fromValue: null | CurrencyFormValue = null;
     toValue: null | CurrencyFormValue = null;
     responseValue: number = 0;
-    error = null;
+    error: any = null;
     private conversionSubject: Subject<{
         fromCurrency: string,
         toCurrency: string,
@@ -50,11 +49,14 @@ export class Home implements OnDestroy {
     private readonly conversionSubscription: Subscription;
 
     constructor(private currencyService: CurrencyService,
-                private readonly cdr: ChangeDetectorRef,) {
+                private readonly cdr: ChangeDetectorRef) {
 
         this.conversionSubscription = this.conversionSubject.pipe(
+            // only submit when user stops typing
             debounceTime(300),
+            // Do not call if values unchanged
             distinctUntilChanged(),
+            // cancel previous calls
             switchMap(formResult => {
                 return this.currencyService.convertCurrency(formResult.fromCurrency, formResult.toCurrency, formResult.amount).pipe(
                     catchError(e => {
@@ -65,7 +67,8 @@ export class Home implements OnDestroy {
             })
         ).subscribe({
             next: (r): void => {
-                this.responseValue = r;
+                this.responseValue = Math.round(r * 100) / 100;
+                // Zoneless build so alert for new changes
                 this.cdr.detectChanges();
             },
             error: (e): void => {
@@ -77,6 +80,7 @@ export class Home implements OnDestroy {
             next: result => {
                 if (result) {
                     this.currencies = result;
+                    // Zoneless build so alert for new changes
                     this.cdr.detectChanges();
                 }
             }, error: error => {
@@ -88,11 +92,13 @@ export class Home implements OnDestroy {
 
     setFromValue(fromValue: CurrencyFormValue): void {
         this.responseValue = 0;
+        // check the form is valid before setting the values
         if (fromValue.currency && fromValue.amount) {
             this.fromValue = fromValue;
         } else {
             this.fromValue = null;
         }
+        // ensure all neccecsry values are present before calling currency conversion
         if (this.fromValue?.currency && this.toValue?.currency && this.fromValue?.amount) {
             this.conversionSubject.next({
                 fromCurrency: this.fromValue?.currency,
@@ -104,11 +110,13 @@ export class Home implements OnDestroy {
 
     setToValue(toValue: CurrencyFormValue): void {
         this.responseValue = 0;
+        // check the form is valid before setting the values
         if (toValue.currency) {
             this.toValue = toValue;
         } else {
             this.toValue = null;
         }
+        // ensure all neccecsry values are present before calling currency conversion
         if (this.fromValue?.currency && this.toValue?.currency && this.fromValue?.amount) {
             this.conversionSubject.next({
                 fromCurrency: this.fromValue?.currency,

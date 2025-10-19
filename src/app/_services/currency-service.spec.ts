@@ -1,16 +1,16 @@
-import { TestBed } from '@angular/core/testing';
+import {TestBed} from '@angular/core/testing';
 
-import { CurrencyService } from './currency-service';
+import {CurrencyService} from './currency-service';
 
-describe('CurrencyService', () => {
-  let service: CurrencyService;
+describe('CurrencyService', (): void => {
+    let service: CurrencyService;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({});
-    service = TestBed.inject(CurrencyService);
-  });
+    beforeEach((): void => {
+        TestBed.configureTestingModule({});
+        service = TestBed.inject(CurrencyService);
+    });
 
-  it('should be created', () => {
-    expect(service).toBeTruthy();
-  });
+    it('should be created', (): void => {
+        expect(service).toBeTruthy();
+    });
 });

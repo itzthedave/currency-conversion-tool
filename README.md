@@ -6,6 +6,15 @@ This project was generated using [Angular CLI](https://github.com/angular/angula
 ng generate --help
 ```
 
+# Serve the App
+
+To run the build on a local sever run:
+
+```bash
+ng serve
+```
+Navigate to http://localhost:4200/ to view the app.
+
 ## Building
 
 To build the project run:

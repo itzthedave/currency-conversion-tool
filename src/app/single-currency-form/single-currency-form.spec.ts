@@ -1,23 +1,22 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { SingleCurrencyForm } from './single-currency-form';
+import {SingleCurrencyForm} from './single-currency-form';
 
-describe('SingleCurrencyForm', () => {
-  let component: SingleCurrencyForm;
-  let fixture: ComponentFixture<SingleCurrencyForm>;
+describe('SingleCurrencyForm', (): void => {
+    let component: SingleCurrencyForm;
+    let fixture: ComponentFixture<SingleCurrencyForm>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [SingleCurrencyForm]
-    })
-    .compileComponents();
+    beforeEach(async (): Promise<void> => {
+        await TestBed.configureTestingModule({
+            imports: [SingleCurrencyForm]
+        }).compileComponents();
 
-    fixture = TestBed.createComponent(SingleCurrencyForm);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+        fixture = TestBed.createComponent(SingleCurrencyForm);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', (): void => {
+        expect(component).toBeTruthy();
+    });
 });

@@ -1,14 +1,13 @@
-<main class="flex-col" style="align-items: center; justify-content: center; width: 100vw; height: 100vh">
-    <div class="flex-col" style=" max-width: 1000px">
+<main class="flex-col">
+    <div class="flex-col container">
         <mat-card>
             <mat-card-header>
                 <mat-card-title>Currency Converter</mat-card-title>
                 <mat-card-subtitle>Select a currency to convert to and from then enter a value to be converted
                 </mat-card-subtitle>
             </mat-card-header>
-            <mat-card-content style="padding-top: 20px">
-
-                <div class="flex-row" style="gap: 25px;align-items: center; justify-content: space-around">
+            <mat-card-content class="currencyFormContainer">
+                <div class="flex-row currencyFormRow">
                     @if (currencies && currencies.length > 0) {
                         <app-single-currency-form [currencies]="currencies"
                                                   (formChange)="setFromValue($event)"></app-single-currency-form>
@@ -21,7 +20,6 @@
                         <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
                     }
                 </div>
-
             </mat-card-content>
         </mat-card>
     </div>

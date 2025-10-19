@@ -1,0 +1,15 @@
+.pr-2 {
+    padding-right: 2px
+}
+
+.gap-15 {
+    gap: 15px
+}
+
+.error {
+    color: red;
+}
+
+.readOnly {
+    pointer-events: none;
+}
