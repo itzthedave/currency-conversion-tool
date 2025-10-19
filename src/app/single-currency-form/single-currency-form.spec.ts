@@ -1,6 +1,7 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {SingleCurrencyForm} from './single-currency-form';
+import {provideZonelessChangeDetection} from "@angular/core";
 
 describe('SingleCurrencyForm', (): void => {
     let component: SingleCurrencyForm;
@@ -8,7 +9,8 @@ describe('SingleCurrencyForm', (): void => {
 
     beforeEach(async (): Promise<void> => {
         await TestBed.configureTestingModule({
-            imports: [SingleCurrencyForm]
+            imports: [SingleCurrencyForm],
+            providers: [provideZonelessChangeDetection()]
         }).compileComponents();
 
         fixture = TestBed.createComponent(SingleCurrencyForm);
