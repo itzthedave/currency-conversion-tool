@@ -1,0 +1,32 @@
+<div class="flex-col" style="gap: 15px">
+    <mat-form-field appearance="outline" color="primary" floatLabel="always">
+        <mat-label>Select Currency</mat-label>
+
+        <input [formControl]="currencySearchControl"
+               [matAutocomplete]="auto" matInput placeholder="Select Currency">
+        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+            @for (currency of filteredCurrencies; track currency) {
+                <mat-option [value]="currency">
+                    {{ currency.name }}
+                </mat-option>
+            }
+        </mat-autocomplete>
+        @if (!currencySearchControl.value || !currencySearchControl?.value?.code) {
+            <mat-hint class="error">
+                This field is required
+            </mat-hint>
+        }
+    </mat-form-field>
+    <mat-form-field appearance="outline" floatLabel="always">
+        <mat-label>Amount</mat-label>
+        <input [formControl]="amount" min="0" matInput type="number"
+               [readonly]="!!(this.setAmount || this.setAmount == 0)"
+               class="example-right-align" placeholder="0"/>
+        @if (currencySearchControl.value && currencySearchControl.value.symbol_first) {
+            <span matTextPrefix style="padding-right: 2px">{{ currencySearchControl.value.symbol }}</span>
+        }
+        @if (currencySearchControl.value && !currencySearchControl.value.symbol_first) {
+            <span matTextSuffix style="padding-left: 2px">{{ currencySearchControl.value.symbol }}</span>
+        }
+    </mat-form-field>
+</div>
