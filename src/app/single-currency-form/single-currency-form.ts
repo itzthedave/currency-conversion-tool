@@ -22,6 +22,7 @@ import {Currency, CurrencyFormValue} from "../_types/currency";
 
     ],
     templateUrl: './single-currency-form.html',
+    standalone: true,
     styleUrl: './single-currency-form.css'
 })
 export class SingleCurrencyForm implements OnChanges {
