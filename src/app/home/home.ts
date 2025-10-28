@@ -68,7 +68,7 @@ export class Home implements OnDestroy {
         ).subscribe({
             next: (r): void => {
                 this.responseValue = Math.round(r * 100) / 100;
-                // Zoneless build so alert for new changes
+                // Zoneless build so alert for new changes TODO change to signals to avoid having to call detectChanges
                 this.cdr.detectChanges();
             },
             error: (e): void => {
@@ -98,7 +98,7 @@ export class Home implements OnDestroy {
         } else {
             this.fromValue = null;
         }
-        // ensure all neccecsry values are present before calling currency conversion
+        // ensure all necessary values are present before calling currency conversion
         if (this.fromValue?.currency && this.toValue?.currency && this.fromValue?.amount) {
             this.conversionSubject.next({
                 fromCurrency: this.fromValue?.currency,
@@ -116,7 +116,7 @@ export class Home implements OnDestroy {
         } else {
             this.toValue = null;
         }
-        // ensure all neccecsry values are present before calling currency conversion
+        // ensure all necessary values are present before calling currency conversion
         if (this.fromValue?.currency && this.toValue?.currency && this.fromValue?.amount) {
             this.conversionSubject.next({
                 fromCurrency: this.fromValue?.currency,
