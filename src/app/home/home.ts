@@ -36,6 +36,13 @@ export class Home implements OnDestroy {
     fromValue: null | CurrencyFormValue = null;
     toValue: null | CurrencyFormValue = null;
     responseValue: number = 0;
+    historyCap: number = 4;
+    currencyConversionHistory: {
+        fromCurrency?: string,
+        fromNumerical?: number,
+        toCurrency?: string,
+        toNumerical: number,
+    }[] = [];
     error: any = null;
     private conversionSubject: Subject<{
         fromCurrency: string,
@@ -68,6 +75,14 @@ export class Home implements OnDestroy {
         ).subscribe({
             next: (r): void => {
                 this.responseValue = Math.round(r * 100) / 100;
+
+                this.currencyConversionHistory.unshift({
+                    fromCurrency: this.fromValue?.currency,
+                    fromNumerical: this.fromValue?.amount,
+                    toCurrency: this.toValue?.currency,
+                    toNumerical: this.responseValue,
+                })
+                this.currencyConversionHistory = this.currencyConversionHistory.slice(0, this.historyCap)
                 // Zoneless build so alert for new changes TODO change to signals to avoid having to call detectChanges
                 this.cdr.detectChanges();
             },
@@ -117,13 +132,13 @@ export class Home implements OnDestroy {
             this.toValue = null;
         }
         // ensure all necessary values are present before calling currency conversion
-        if (this.fromValue?.currency && this.toValue?.currency && this.fromValue?.amount) {
-            this.conversionSubject.next({
-                fromCurrency: this.fromValue?.currency,
-                toCurrency: this.toValue?.currency,
-                amount: this.fromValue?.amount
-            });
-        }
+        // if (this.fromValue?.currency && this.toValue?.currency && this.fromValue?.amount) {
+        //     this.conversionSubject.next({
+        //         fromCurrency: this.fromValue?.currency,
+        //         toCurrency: this.toValue?.currency,
+        //         amount: this.fromValue?.amount
+        //     });
+        // }
     }
 
     ngOnDestroy(): void {

@@ -13,6 +13,7 @@
                                                   (formChange)="setFromValue($event)"></app-single-currency-form>
                         <mat-icon>arrow_forward</mat-icon>
                         <app-single-currency-form [currencies]="currencies" [setAmount]="responseValue"
+                                                  [readOnlyAmount]="true"
                                                   (formChange)="setToValue($event)"></app-single-currency-form>
                     } @else if (error) {
                         <p>{{ error }}</p>
@@ -20,6 +21,23 @@
                         <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
                     }
                 </div>
+
+                @if (this.currencyConversionHistory.length > 0) {
+                    <div class="flex-col">
+                        @for (item of this.currencyConversionHistory; track $index) {
+                            <div class="flex-row " style="width: 100%; gap: 1rem">
+                                <div class="flex-row">
+                                    <b>{{ item.fromCurrency }}</b>: <p
+                                        style="margin: 0">{{ item.fromNumerical }}</p>
+                                </div>
+                                <div class="flex-row">
+                                    <b>{{ item.toCurrency }}</b>: <p style="margin: 0">{{ item.toNumerical }}</p>
+                                </div>
+                            </div>
+
+                        }
+                    </div>
+                }
             </mat-card-content>
         </mat-card>
     </div>

@@ -28,6 +28,7 @@ import {Currency, CurrencyFormValue} from "../_types/currency";
 export class SingleCurrencyForm implements OnChanges {
     @Input({required: true}) currencies!: Currency[];
     @Input() setAmount: number | undefined;
+    @Input() readOnlyAmount: boolean = false;
     @Output() formChange: EventEmitter<CurrencyFormValue> = new EventEmitter();
     filteredCurrencies: Currency[] = [];
     currencySearchControl: FormControl = new FormControl();
@@ -52,10 +53,12 @@ export class SingleCurrencyForm implements OnChanges {
         );
         this.amount.valueChanges.subscribe(
             (value): void => {
-                this.formChange.emit({
-                    currency: this.currencySearchControl.value?.short_code ? this.currencySearchControl.value.short_code : undefined,
-                    amount: value,
-                });
+                if (!this.readOnlyAmount) {
+                    this.formChange.emit({
+                        currency: this.currencySearchControl.value?.short_code ? this.currencySearchControl.value.short_code : undefined,
+                        amount: value,
+                    });
+                }
             }
         );
     }
