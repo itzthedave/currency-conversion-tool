@@ -132,13 +132,13 @@ export class Home implements OnDestroy {
             this.toValue = null;
         }
         // ensure all necessary values are present before calling currency conversion
-        // if (this.fromValue?.currency && this.toValue?.currency && this.fromValue?.amount) {
-        //     this.conversionSubject.next({
-        //         fromCurrency: this.fromValue?.currency,
-        //         toCurrency: this.toValue?.currency,
-        //         amount: this.fromValue?.amount
-        //     });
-        // }
+        if (this.fromValue?.currency && this.toValue?.currency && this.fromValue?.amount) {
+            this.conversionSubject.next({
+                fromCurrency: this.fromValue?.currency,
+                toCurrency: this.toValue?.currency,
+                amount: this.fromValue?.amount
+            });
+        }
     }
 
     ngOnDestroy(): void {
